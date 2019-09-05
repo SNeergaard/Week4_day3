@@ -4,19 +4,23 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.week4_day3.model.Events.FlickrEvent;
-import com.example.week4_day3.model.datasource.flickr.Flickr;
+import com.example.week4_day3.model.Flickr;
+import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 
-public class FlickrAsync extends AsyncTask<void, String, Flickr> {
+public class FlickrAsyncTask extends AsyncTask<Void, String, Flickr> {
 public static final String TAG = "TAG_ASYNC_TASK";
 
     @Override
-    protected Flickr doInBackground(void... voids) {
+    protected Flickr doInBackground(Void... voids) {
         try{
-            return OkhttpHelper.executeSyncOkHttpRequest();
+            String result = OkhttpHelper.executeSyncFlickr();
+            Gson gson = new Gson();
+            Flickr flickr = gson.fromJson(result,Flickr.class);
+            return flickr;
         } catch (IOException e){
             publishProgress(e.toString());
             return null;

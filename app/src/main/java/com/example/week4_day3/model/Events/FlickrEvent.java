@@ -1,13 +1,13 @@
 package com.example.week4_day3.model.Events;
 
 
-import com.example.week4_day3.model.datasource.flickr.Flickr;
+import com.example.week4_day3.model.Flickr;
 
 public class FlickrEvent {
     Flickr flickr;
 
     public FlickrEvent(Flickr flickr){
-        this.flickr = flickr
+        this.flickr = flickr;
     }
 
     public Flickr getFlickr() {

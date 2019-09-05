@@ -5,17 +5,24 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.week4_day3.model.Events.FlickrEvent;
+import com.example.week4_day3.model.Flickr;
 import com.example.week4_day3.model.FlickrRVAdapter;
+import com.example.week4_day3.model.ItemsItem;
+import com.example.week4_day3.model.datasource.remote.FlickrAsyncTask;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
     RecyclerView rvFlickr;
-    FlickrRVAdapter adapter;
+    Flickr flickr;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +32,14 @@ public class MainActivity extends AppCompatActivity {
         rvFlickr = findViewById(R.id.rvFlickr);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         rvFlickr.setLayoutManager(layoutManager);
+
+        new Runnable() {
+            @Override
+            public void run() {
+                    new FlickrAsyncTask().execute();
+            }
+        }.run();
+
     }
 
     @Override
@@ -41,6 +56,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onFlickrEvent(FlickrEvent event) {
-        adapter.addtoList.(event.getFlickr());
+        Log.d("TAG_MAIN", "onFlickrEvent: flickr:" + event.getFlickr().toString());
+        flickr = event.getFlickr();
+        List<ItemsItem> items = flickr.getItems();
+
+        rvFlickr.setAdapter(new FlickrRVAdapter(items));
+        rvFlickr.setLayoutManager(new LinearLayoutManager(this));
+
+
+
     }
 }
