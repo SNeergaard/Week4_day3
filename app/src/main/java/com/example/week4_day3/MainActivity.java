@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.example.week4_day3.model.Events.FlickrEvent;
 import com.example.week4_day3.model.Flickr;
@@ -39,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
                     new FlickrAsyncTask().execute();
             }
         }.run();
-
     }
 
     @Override
@@ -62,8 +62,6 @@ public class MainActivity extends AppCompatActivity {
 
         rvFlickr.setAdapter(new FlickrRVAdapter(items));
         rvFlickr.setLayoutManager(new LinearLayoutManager(this));
-
-
-
     }
+
 }
